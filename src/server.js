@@ -1,10 +1,10 @@
 import express from 'express';
+import 'dotenv/config';
 import cors from 'cors';
 import pino from 'pino-http';
-import 'dotenv/config';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT ?? 3000;
 
 app.use(express.json());
 app.use(cors());
@@ -23,31 +23,33 @@ app.use(
     },
   }),
 );
+
 app.get('/notes', (req, res) => {
-  res.status(200).json({ message: 'Retrieved all notes' });
+  res.status(200).json({
+    message: "Retrieved all notes",
+  });
 });
 
-app.get('/notes/:noteId', (req, res) => {
-  const { noteId } = req.params;
-   res.status(200).json({ message: `Retrieved note with ID: ${noteId}` });
-});
-
+  app.get('/notes/:noteId', (req, res) => {
+    const { noteId } = req.params;
+    res.status(200).json({
+      message: `Retrieved note with ID: ${noteId}`,
+    });
+  });
 //eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  const isProd = process.env.NODE_ENV === "production";
-
+app.get('/test-error', (req, res) => {
+  throw new Error(`Simulated server error`);
+});
 
 app.use((req, res) => {
-    res.status(404).json({ "message": "Route not found"})
-})
-
-app.get('/test-error', () => {
-  throw new Error('Simulated server error');
+  res.status(404).json({
+    message: 'Route not found'
+  });
 });
- res.status(500).json({
-    message: isProd
-      ? "Something went wrong. Please try again later."
-      : err.message,
+//eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  res.status(500).json({
+    message: err.message,
   });
 });
 
