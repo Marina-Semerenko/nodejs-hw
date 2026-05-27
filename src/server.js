@@ -31,21 +31,10 @@ app.get('/notes/:noteId', (req, res) => {
   const { noteId } = req.params;
    res.status(200).json({ message: `Retrieved note with ID: ${noteId}` });
 });
-//eslint-disable-next-line no-unused-vars
-app.get('/test-error', (req, res) => {
-  throw new Error(`Something went wrong`);
-});
 
 //eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const isProd = process.env.NODE_ENV === "production";
-
-  res.status(500).json({
-    message: isProd
-      ? "Something went wrong. Please try again later."
-      : err.message,
-  });
-});
 
 
 app.use((req, res) => {
@@ -55,8 +44,13 @@ app.use((req, res) => {
 app.get('/test-error', () => {
   throw new Error('Simulated server error');
 });
+ res.status(500).json({
+    message: isProd
+      ? "Something went wrong. Please try again later."
+      : err.message,
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
