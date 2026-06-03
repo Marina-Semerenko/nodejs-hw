@@ -1,13 +1,12 @@
 import { Note } from '../models/note.js';
 import createHttpError from 'http-errors';
 
-// Отримати список усіх студентів
 export const getAllNotes = async (req, res) => {
   const notes = await Note.find();
   res.status(200).json(notes);
 };
 
-// Отримати одного студента за id
+
 export const getNoteById = async (req, res) => {
   const { noteId } = req.params;
   const note = await Note.findById(noteId);
