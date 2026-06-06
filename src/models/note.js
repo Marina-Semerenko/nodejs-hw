@@ -1,12 +1,12 @@
-import { model } from 'mongoose';
 import { Schema } from 'mongoose';
+import { model } from 'mongoose';
 
 const noteSchema = new Schema(
   {
-   title: {
+    title: {
       type: String,
       required: true,
-      trim: true, // прибирає пробіли на початку та в кінці
+      trim: true,
     },
     content: {
       type: String,
@@ -14,10 +14,12 @@ const noteSchema = new Schema(
       required: false,
       trim: true,
     },
-    gender: {
-      tag: String,
+    tag: {
+      type: String,
       required: false,
-      enum: [ 'Work',
+      default: 'Todo',
+      enum: [
+        'Work',
         'Personal',
         'Meeting',
         'Shopping',
@@ -26,12 +28,13 @@ const noteSchema = new Schema(
         'Finance',
         'Health',
         'Important',
-        'Todo',],
+        'Todo',
+      ],
     },
-
   },
   {
     timestamps: true,
   },
 );
+
 export const Note = model('note', noteSchema);
