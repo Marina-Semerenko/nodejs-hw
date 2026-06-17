@@ -34,13 +34,13 @@ app.use((req, res, next) => {
 
 app.use(notesRoutes);
 
+app.use(authRoutes);
+
 app.use(notFoundHandler);
 
 app.use(errors());
 
 app.use(errorHandler);
-
-app.use(authRoutes);
 
 await connectMongoDB();
 
