@@ -9,11 +9,11 @@ import { errors } from "celebrate";
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { logger } from './middleware/logger.js';
-
+import authRoutes from './routes/authRoutes.js';
 import notesRoutes from './routes/notesRoutes.js';
 //eslint-disable-next-line no-unused-vars
 import { Query } from 'mongoose';
-
+import cookieParser from "cookie-parser";
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -26,7 +26,7 @@ app.use(
   }),
 );
 app.use(cors());
-
+app.use(cookieParser());
 app.use((req, res, next) => {
   console.log(`Time: ${new Date().toLocaleString()}`);
   next();
@@ -39,6 +39,8 @@ app.use(notFoundHandler);
 app.use(errors());
 
 app.use(errorHandler);
+
+app.use(authRoutes);
 
 await connectMongoDB();
 
