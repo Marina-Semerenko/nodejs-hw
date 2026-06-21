@@ -14,6 +14,9 @@ import notesRoutes from './routes/notesRoutes.js';
 //eslint-disable-next-line no-unused-vars
 import { Query } from 'mongoose';
 import cookieParser from "cookie-parser";
+import userRoutes from './routes/userRoutes.js';
+
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -31,10 +34,9 @@ app.use((req, res, next) => {
   console.log(`Time: ${new Date().toLocaleString()}`);
   next();
 });
-
-app.use(notesRoutes);
-
 app.use(authRoutes);
+app.use(userRoutes);
+app.use(notesRoutes);
 
 app.use(notFoundHandler);
 
